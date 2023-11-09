@@ -1,0 +1,262 @@
+:root {
+    --cellSize: 50px;
+    --cellSizeSmall: 30px;
+    --lineColor: rgba(255, 0, 0, 0.5);
+
+    --bgColor: rgb(26, 32, 39);
+    --textAreaColor: rgb(43, 51, 61);
+    --inactiveTextAreaColor: rgb(18, 22, 27);
+
+    --textColor: rgb(166, 173, 186);
+    --textAccentColor: rgb(213, 215, 219);
+
+    --interactTextColor: rgb(26, 147, 137);
+    --textHighlight: rgb(215, 252, 128);
+
+    --encryptColor: rgb(253, 186, 186);
+    --decryptColor: rgb(72, 214, 155); 
+}
+
+* {
+    color: var(--textColor);
+    font-family: 'Segoe UI', sans-serif;
+    letter-spacing: 1px;
+    box-sizing: border-box;
+}
+
+p {
+    font-size: 1.1rem;
+}
+
+body {
+    background-color: var(--bgColor);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 0;
+    margin-bottom: 200px;
+}
+
+header {
+    width: 100%;
+    border-bottom: 1px solid var(--textColor);
+    margin-bottom: 2rem;
+    position: relative;
+}
+
+header a {
+    position: absolute;
+    top: 0;
+    right: 30px;
+    height: 100%;
+    display: flex;
+    align-items: center;
+}
+
+img {
+    height: 30px;
+}
+
+main {
+    width: 80%;
+    padding: 0 2rem;
+    margin: 0;
+}
+
+@media screen and (max-width: 1000px) {
+    main {
+        width: 100%;
+    }
+}
+
+h1 {
+    text-align: center;
+    margin: 1rem 80px;
+    color: var(--textAccentColor);
+}
+
+@media screen and (max-width: 600px) {
+    h1 {
+        font-size: 1.5rem;
+    }
+}
+
+h2 {
+    color: var(--textAccentColor);
+    text-align: center;
+}
+
+h3 {
+    margin-top: 2rem;
+}
+
+/* TABLES */
+.tableContainer {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+table {
+    border-collapse: collapse;
+    background-color: var(--textAccentColor);
+    color: var(--bgColor);
+    margin: 1rem;
+}
+
+td {
+    width: var(--cellSize);
+    height: var(--cellSize);
+    border: 1px solid black;
+    color: black;
+    font-weight: bold;
+    text-align: center;
+}
+
+.demo td {
+    width: var(--cellSizeSmall);
+    height: var(--cellSizeSmall);
+}
+
+.table__cell--pink {
+    background-color: var(--encryptColor);
+}
+
+.table__cell--green {
+    background-color: var(--decryptColor);
+}
+
+.xLine, .yLine {
+    background-color: var(--lineColor);
+    position: absolute;
+    z-index: 0;
+}
+
+/* FORMS */
+#keywordForm {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+
+label {
+    font-weight: bold;
+}
+
+input {
+    padding: 0.5rem;
+    border-radius: 5px;
+    text-transform: uppercase;
+}
+
+input[type='text'] {
+    background-color: var(--textAreaColor);
+    border: none;
+    margin: 1rem;
+}
+
+input[type='text']:focus {
+    outline: 2px solid var(--interactTextColor);
+}
+
+.buttonContainer {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    padding: 1rem;
+    height: 100px;
+    margin-bottom: 3rem;
+}
+
+#encodeButtonContainer {
+    justify-content: flex-end;
+}
+
+input[type='submit'] {
+    background-color: var(--bgColor);
+    border: 1px solid var(--interactTextColor);
+    color: var(--interactTextColor);
+}
+
+input[type='submit']:hover{
+    cursor: pointer;
+}
+
+input[type='submit']:disabled {
+    border: 1px solid rgb(102, 106, 114);
+    color: rgb(102, 106, 114);
+    cursor: default;
+}
+
+.displayContainer {
+    display: flex;
+    justify-content: space-evenly;
+    height: 300px;
+}
+
+@media screen and (max-width: 600px) {
+    .displayContainer {
+        flex-direction: column;
+        height: 600px;
+    }
+}
+
+.displayContainer > div {
+    flex-grow: 1;
+    flex-basis: 0;
+    display: flex;
+    flex-direction: column;
+    padding: 10px;
+}
+
+.displayContainer > div > label {
+    margin-left: 5px;
+    margin-bottom: 10px;
+}
+
+textarea {
+    width: 100%;
+    flex-grow: 1;
+    height: 100px;
+    resize: none;
+    padding: 1rem;
+    border: none;
+    border-radius: 15px;
+    background-color: var(--textAreaColor);
+    text-transform: uppercase;
+}
+
+textarea[disabled] {
+    background-color: var(--inactiveTextAreaColor);
+}
+
+textarea:focus {
+    outline: 2px solid var(--interactTextColor);
+}
+
+.userInput {
+    border-radius: 15px 15px 0 0;
+}
+
+.displayInput {
+    border-radius: 0 0 15px 15px;
+}
+
+/* TEXT COLORS */
+.text--yellow {
+    color: var(--textHighlight);
+}
+
+.text--pink {
+    color: var(--encryptColor);
+}
+
+.text--green {
+    color: var(--decryptColor);
+}
+
+.text--warning {
+    color: rgb(235, 151, 151);
+    margin: 0;
+}

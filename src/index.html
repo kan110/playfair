@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Playfair Cipher</title>
+    <script>var exports = {};</script>
+    <script src="https://code.jquery.com/jquery-3.6.3.min.js"></script>
+    <script src="../build/index.js" defer></script>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <header>
+        <h1>Playfair Cipher Translator</h1>
+        <a href="https://github.com/" target="_blank"><img src="./images/github-mark-white.png" alt="Project on Github"></a>
+    </header>
+    <main>
+        <section>
+            <form id="keywordForm">
+                <input type="text" placeholder='Keyword' id="keywordInput">
+                <input type="submit" value="Enter">
+            </form>
+
+            <div class="tableContainer">
+                <table id="keywordTable"></table>
+            </div>
+            <div class="xLine" id="xLine_keywordTable"></div>
+            <div class="yLine" id="yLine_keywordTable"></div>
+
+            <section>
+                <h3><span class="text--pink">Encoding Plaintext</span></h3>
+
+                <form id="ptxtForm">
+                    <div class="displayContainer">
+                        <div>
+                            <label for="inputPtxt">Plaintext</label>
+                            <textarea class='userInput' id="inputPtxt" cols="30" rows="10" spellcheck="false"></textarea>
+                            <textarea class='displayInput' cols="30" rows="10" disabled></textarea>
+                        </div>
+                        <div>
+                            <label for="outputCtxt">Ciphertext</label>
+                            <textarea class='displayOutput' id="outputCtxt" cols="30" rows="10" disabled></textarea>
+                        </div>
+                    </div>
+                    <div class="buttonContainer" id="encodeButtonContainer">
+                        <input type="submit" value="Encode">
+                    </div>
+                </form>
+            </section>
+
+            <section>
+                <h3><span class="text--green">Decoding Ciphertext</span></h3>
+
+                <form id="ctxtForm">
+                    <div class="displayContainer">
+                        <div>
+                            <label for="inputCtxt">Ciphertext</label>
+                            <textarea class='userInput' id="inputCtxt" cols="30" rows="10" spellcheck="false"></textarea>
+                            <textarea class='displayInput' cols="30" rows="10" disabled></textarea>
+                        </div>
+                        <div>
+                            <label for="outputPtxt">Plaintext</label>
+                            <textarea class='displayOutput' id="outputPtxt" cols="30" rows="10" disabled></textarea>
+                        </div>
+                    </div>
+                    <div class="buttonContainer">
+                        <div class="warningWrapper">
+                            <p class="text--warning" id="warning"></p>
+                        </div>
+                        <input type="submit" value="Decode">
+                    </div>
+                </form>
+            </section>
+        </section>
+
+        <hr>
+
+        <section id="explanation">
+            <h2>What is it?</h2>
+            <p>The Playfair Cipher is an encryption technique invented in the 1850s. It uses a 5x5 alphabetical grid where I and J act as a single letter. To pass a message between two parties, a shared keyword is chosen to modify the grid. For encryption, the plaintext is broken into pairs of letters. The two letters in a pair cannot be the same, so 'X' is used for the second letter in such cases. If a letter is unpaired at the end, a 'Q' is added. The ciphertext is generated based on each pair.</p>
+
+            <h3>Modifying the Grid</h3>
+            <p>Start with a grid in alphabetical order. Beginning from the end of the keyword, push each character to the start of the grid while removing it from its previous location. Shift other grid cells as needed to the right, or to the start of the next row.</p>
+            <div class="tableContainer">
+                <table class='demo' id="demoStart"></table>
+                <table class='demo' id="demoEnd"></table>
+            </div>
+            <p>Above is a grid in alphabetical order, which is then modified with the keyword 'EXAMPLE'.</p>
+
+            <h3>Rules for <span class="text--pink">Encryption</span></h3>
+            <ol>
+                <li>
+                    <section class="animateOnMouseMove">
+                        <p>If the pair consists of two letters with <span class="text--yellow">unique rows and columns</span>, their placement on the grid can be seen as defining a rectangle, where each letter is a corner. Each letter encodes to the corner letter on the same row. </p>
+                        <p>The pair 'EZ' encodes to 'PU'.</p>
+                        <div class="tableContainer">
+                            <table class="demo" id="demo1"></table>
+                        </div>
+                        <div class="xLine" id="xLine_demo1"></div>
+                        <div class="yLine" id="yLine_demo1"></div>
+                    </section>
+                </li>
+
+                <li>
+                    <section class="animateOnMouseMove">
+                        <p>If the pair consists of letters in the <span class="text--yellow">same row</span>, then each letter maps to the letter on the immediate right of it. If the letter is in the last column with nothing to its right, it wraps around to map to the leftmost letter of the row.</p>
+                        <p>The pair 'HN' encodes to 'IG'.</p>
+                        <div class="tableContainer">
+                            <table class="demo" id="demo2"></table>
+                        </div>
+                        <div class="xLine" id="xLine_demo2"></div>
+                        <div class="yLine" id="yLine_demo2"></div>
+                    </section>
+                </li>
+                <li>
+                    <section class="animateOnMouseMove">
+                        <p>Similarly, for two letters in the <span class="text--yellow">same column</span>, shift downwards by one cell and wrap if necessary.</p>
+                        <p>The pair 'AR' encodes to 'CW'.</p>
+                        <div class="tableContainer">
+                            <table class="demo" id="demo3"></table>
+                        </div>
+                        <div class="xLine" id="xLine_demo3"></div>
+                        <div class="yLine" id="yLine_demo3"></div>
+                    </section>
+                </li>
+            </ol>
+
+            <h3>Rules for <span class="text--green">Decryption</span></h3>
+            <p>If the ciphertext was generated following the Playfair Cipher, it should split into pairs with unique letters. Otherwise, it is invalid. To decrypt, simply perform the inverse of the steps used to encrypt. If the letters of a pair have <span class="text--yellow">unique rows and columns</span>, create a rectangle on the grid using the letters as a corner. Each letter decodes to the corner letter on the same row. If the letters are in the <span class="text--yellow">same row or column</span>, shift by one cell to the left or up respectively, wrapping as needed. </p>
+        </section>
+    </main>
+</body>
+</html>
